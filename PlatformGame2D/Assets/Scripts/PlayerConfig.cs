@@ -12,7 +12,7 @@ public class PlayerConfig : MonoBehaviour
     public Animator animSword;
 
     //playerConfig
-    float maxVelocity = 40.0f;
+    float maxVelocity = 20.0f;
     float moveForce = 50.0f;
     float jumpForce = 2.1f;
     private bool playerFacingRight = true;
