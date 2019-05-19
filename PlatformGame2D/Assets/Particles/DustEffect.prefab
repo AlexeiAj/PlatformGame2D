@@ -168,7 +168,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 5
+      scalar: 2
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -220,9 +220,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 2
+      minMaxState: 0
       minColor: {r: 0, g: 0, b: 0, a: 1}
-      maxColor: {r: 0.40784085, g: 0.41657376, b: 0.4433962, a: 1}
+      maxColor: {r: 0.40784085, g: 0.41657376, b: 0.4433962, a: 0.1882353}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -975,8 +975,8 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 3
-        scalar: 30
-        minScalar: 10
+        scalar: 50
+        minScalar: 30
         maxCurve:
           serializedVersion: 2
           m_Curve:
@@ -1041,26 +1041,26 @@ ParticleSystem:
         - serializedVersion: 3
           time: 0
           value: 1
-          inSlope: -1.367481
-          outSlope: -1.367481
+          inSlope: -1.313196
+          outSlope: -1.313196
           tangentMode: 34
           weightedMode: 0
           inWeight: 0
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.7061818
-          value: 0.034309715
-          inSlope: -0.74212646
-          outSlope: -0.74212646
-          tangentMode: 34
+          time: 0.7450613
+          value: 0.021588564
+          inSlope: -0.04550082
+          outSlope: -0.04550082
+          tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0.14468583
+          outWeight: 0.20108734
         - serializedVersion: 3
           time: 1
-          value: 0
-          inSlope: -0.11677193
-          outSlope: -0.11677193
+          value: 0.016952515
+          inSlope: -0.018184956
+          outSlope: -0.018184956
           tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334
@@ -1546,7 +1546,7 @@ ParticleSystem:
     uvChannelMask: -1
     randomRow: 1
     sprites:
-    - sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
+    - sprite: {fileID: 21300004, guid: 2aec4c0a64c179a4c931a00e52b0ade5, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
