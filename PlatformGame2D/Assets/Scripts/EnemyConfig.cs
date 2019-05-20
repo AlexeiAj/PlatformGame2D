@@ -2,25 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerConfig : MonoBehaviour
+public class EnemyConfig : MonoBehaviour
 {
-    //player
-    private GameObject player;
-    private Transform playerTf;
-    private Rigidbody2D playerRb;
+    //enemy
+    private GameObject enemy;
+    private Transform enemyTf;
+    private Rigidbody2D enemyRb;
     private Animator anim;
     public Animator animSword;
 
-    //playerConfig
+    //enemyConfig
     private float maxVelocity = 20.0f;
     private float moveForce = 50.0f;
     private float jumpForce = 2.1f;
-    private bool playerFacingRight = true;
+    private bool enemyFacingRight = true;
     private float health = 100;
     private float fallingTime = 0f;
 
     //groundCheck
-    private Transform groundCheck;
+    public Transform groundCheck;
     private LayerMask groundLayer;
     private bool isGrounded = false;
     private float checkGroundRadius = 1f;
@@ -34,42 +34,44 @@ public class PlayerConfig : MonoBehaviour
     public GameObject bloodEffect;
     private float startTimeBtwTrail = 0.2f;
     private float timeBtwTrail;
-    private float startTimeBtwAttacking = 0.2f;
+    private float startTimeBtwAttacking = 0.4f;
     private float timeBtwAttacking;
     private float startTimeBtwRunSound = 0.3f;
     private float timeBtwRunSound;
     public TrailRenderer swordTrail;
 
+    private GameObject player;
+    private Transform playerTf;
+
     void Start(){
-        //player
-        player = GameObject.FindWithTag("Player");
-        playerTf = player.transform;
-        playerRb = player.GetComponent<Rigidbody2D>();
+        //enemy
+        enemy = this.gameObject;
+        enemyTf = enemy.transform;
+        enemyRb = enemy.GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         timeBtwTrail = startTimeBtwTrail;
         timeBtwAttacking = -startTimeBtwAttacking;
         timeBtwRunSound = startTimeBtwRunSound;
 
+        //player
+        player = GameObject.FindWithTag("Player");
+        playerTf = player.transform;
+
         //groundCheck
-        groundCheck = GameObject.FindWithTag("GroundCheck").transform;
         groundLayer = LayerMask.GetMask("Ground");
     }
 
     void FixedUpdate()
     {
-        if(!player) return;
+        if(!enemy || !player) return;
 
         verifyGrounded();
-        movePlayer(Input.GetAxisRaw("Horizontal"));
-        jumpPlayer();
-        hitPlayer();
-        updateHealth();
+        moveEnemy(playerTf.position.x - enemyTf.position.x > 0 ? 1 : -1);
+        jumpEnemy();
+        hitEnemy();
         fallingTimeUpdate();
     }
 
-    void updateHealth(){
-        HealthDisplay.Health = health;
-    }
 
     public void damage(int damage){
         health = health <= 0 ? 0 : health - damage;
@@ -78,7 +80,7 @@ public class PlayerConfig : MonoBehaviour
             return;
         }
         
-        GameObject instance = Instantiate(bloodEffect, playerTf.position, Quaternion.identity);
+        GameObject instance = Instantiate(bloodEffect, enemyTf.position, Quaternion.identity);
         Destroy(instance, 8f);
         StartCoroutine(DamageFlash());
     }
@@ -88,7 +90,7 @@ public class PlayerConfig : MonoBehaviour
         SpriteRenderer[] sprites = GetComponentsInChildren<SpriteRenderer>();
         
         for(int i = 0; i < sprites.Length; i++){
-            sprites[i].color = Color.blue;
+            sprites[i].color = Color.red;
         }
 
         yield return new WaitForSeconds(0.07f);
@@ -98,7 +100,7 @@ public class PlayerConfig : MonoBehaviour
         }
     }
 
-    void hitPlayer(){
+    void hitEnemy(){
         if (!isGrounded && timeBtwTrail <= 0){
             GameObject instance = Instantiate(jumpEffect, groundCheck.position, Quaternion.identity);
             Destroy(instance, 8f);
@@ -106,22 +108,26 @@ public class PlayerConfig : MonoBehaviour
         }
         timeBtwTrail -= Time.deltaTime;
         
-        if((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.LeftShift)) && timeBtwAttacking <= 0){
+        if(Mathf.Abs(playerTf.position.x - enemyTf.position.x) < 4 && timeBtwAttacking <= 0){
             SoundManager.PlaySound("slash");
             swordTrail.emitting = true;
             timeBtwAttacking = startTimeBtwAttacking;
         } 
+
         animSword.SetBool("isAttacking", timeBtwAttacking > 0);
         if(timeBtwAttacking < 0) swordTrail.emitting = false;
         timeBtwAttacking -= Time.deltaTime;
     }
 
-    void movePlayer(float side)
+    void moveEnemy(float side)
     {
+        if(Mathf.Abs(playerTf.position.x - enemyTf.position.x) <= 4) side= 0;
+
         fakeFriction();
-        playerRb.AddForce((Vector2.right * moveForce * playerRb.mass) * side);
-        if(Mathf.Abs(playerRb.velocity.x) > maxVelocity) playerRb.velocity = new Vector2(maxVelocity * side, playerRb.velocity.y);
-       
+            
+        enemyRb.AddForce((Vector2.right * moveForce * enemyRb.mass) * side);
+        if(Mathf.Abs(enemyRb.velocity.x) > maxVelocity) enemyRb.velocity = new Vector2(maxVelocity * side, enemyRb.velocity.y);
+
         flip(side);
 
         if(!isGrounded) return;
@@ -136,13 +142,13 @@ public class PlayerConfig : MonoBehaviour
     }
 
     void fakeFriction(){
-		if(isGrounded) playerRb.velocity = new Vector3(playerRb.velocity.x * fakeFrictionValue, playerRb.velocity.y);
+		if(isGrounded) enemyRb.velocity = new Vector3(enemyRb.velocity.x * fakeFrictionValue, enemyRb.velocity.y);
 	}
 
     void flip(float side){
-        if(side < 0 && playerFacingRight || side > 0 && !playerFacingRight){
-            playerFacingRight = !playerFacingRight;
-            playerTf.localScale = new Vector3(playerTf.localScale.x * -1, playerTf.localScale.y, playerTf.localScale.z);
+        if(side < 0 && enemyFacingRight || side > 0 && !enemyFacingRight){
+            enemyFacingRight = !enemyFacingRight;
+            enemyTf.localScale = new Vector3(enemyTf.localScale.x * -1, enemyTf.localScale.y, enemyTf.localScale.z);
         }
     }
 
@@ -155,23 +161,22 @@ public class PlayerConfig : MonoBehaviour
 
     void die(){
         health = 0;
-        updateHealth();
         fallingTime = 0;
         SoundManager.PlaySound("explosion");
-        GameObject instance = Instantiate(explosionEffect, playerTf.position, Quaternion.identity);
+        GameObject instance = Instantiate(explosionEffect, enemyTf.position, Quaternion.identity);
         Destroy(instance, 8f);
         CameraConfig.shake();
-        Destroy(player);
+        Destroy(enemy);
 	}
 
-    void jumpPlayer()
+    void jumpEnemy()
     {
-        if (!isGrounded || (!Input.GetKeyDown(KeyCode.Space) && !Input.GetKeyDown(KeyCode.UpArrow))) return;
+        if (!isGrounded || playerTf.position.y - enemyTf.position.y < 5) return;
 
         SoundManager.PlaySound("jump");
         anim.SetTrigger("takeOf");
-        playerRb.velocity = new Vector2(playerRb.velocity.x, 0);
-        playerRb.AddForce(transform.up * (-Physics.gravity.y * jumpForce * playerRb.mass), ForceMode2D.Impulse);
+        enemyRb.velocity = new Vector2(enemyRb.velocity.x, 0);
+        enemyRb.AddForce(transform.up * (-Physics.gravity.y * jumpForce * enemyRb.mass), ForceMode2D.Impulse);
     }
 
     void verifyGrounded()
@@ -197,6 +202,4 @@ public class PlayerConfig : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(groundCheck.position, checkGroundRadius);
     }
-
-    
 }

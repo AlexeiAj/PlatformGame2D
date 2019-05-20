@@ -143,6 +143,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneLevel: {fileID: 4872837005346737613, guid: f1c96885aa096f94ba8a6ec4d614ec68,
     type: 3}
+  enemyLevel: {fileID: 6769101177391886351, guid: d3f005b6ca6e2f143be73b61bca8353e,
+    type: 3}
 --- !u!4 &113193611
 Transform:
   m_ObjectHideFlags: 0
@@ -155,7 +157,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &274291263
 GameObject:
@@ -268,7 +270,7 @@ Transform:
   - {fileID: 656229190}
   - {fileID: 1349734661}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &336508960
 GameObject:
@@ -324,18 +326,18 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.025562167, y: 0.81288767}
+  m_Offset: {x: 0.13394862, y: 0.81288767}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
+    pivot: {x: 0.4999994, y: 0.9739079}
+    oldSize: {x: 0.5, y: 2.24}
+    newSize: {x: 0.5, y: 2.24}
+    adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.2061355, y: 5.4110417}
+  m_Size: {x: 2.4229083, y: 5.4110417}
   m_EdgeRadius: 0
 --- !u!4 &336508963
 Transform:
@@ -345,7 +347,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 336508960}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 1.1, y: 2.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1691121281}
@@ -374,7 +376,7 @@ MonoBehaviour:
     type: 3}
   explosionEffect: {fileID: 8962603477960308448, guid: 56e6af6b0cbeb09408c3f593a7e86086,
     type: 3}
-  bloodEffect: {fileID: 8012617587645867267, guid: fde22fb0a2089814d9bfc52ade2bac2b,
+  bloodEffect: {fileID: 4078050130573230932, guid: ec36973fae34f6e43a8fbd95cc6ae1eb,
     type: 3}
   swordTrail: {fileID: 468585029}
 --- !u!95 &336508965
@@ -669,7 +671,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &496256717
 GameObject:
@@ -852,7 +854,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &519420033
 MonoBehaviour:
@@ -1166,6 +1168,8 @@ GameObject:
   - component: {fileID: 836806465}
   - component: {fileID: 836806466}
   - component: {fileID: 836806467}
+  - component: {fileID: 836806468}
+  - component: {fileID: 836806469}
   m_Layer: 10
   m_Name: Sword
   m_TagString: Untagged
@@ -1255,6 +1259,44 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!61 &836806468
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836806464}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0016913265, y: 1.0232184}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.51150304, y: 0.044421777}
+    oldSize: {x: 0.72, y: 2.43}
+    newSize: {x: 0.72, y: 2.43}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.13874894, y: 2.3580232}
+  m_EdgeRadius: 0
+--- !u!114 &836806469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836806464}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce52a0acf9991464ca0307a54524c67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &929549387
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,7 +1904,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1691121280
 GameObject:
