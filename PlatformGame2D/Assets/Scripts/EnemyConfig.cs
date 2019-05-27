@@ -18,6 +18,7 @@ public class EnemyConfig : MonoBehaviour
     private bool enemyFacingRight = true;
     private float health = 100;
     private float fallingTime = 0f;
+    private bool isAttacking = false;
 
     //groundCheck
     public Transform groundCheck;
@@ -32,6 +33,8 @@ public class EnemyConfig : MonoBehaviour
     public GameObject jumpEffect;
     public GameObject explosionEffect;
     public GameObject bloodEffect;
+    public GameObject bloodSplash;
+    public GameObject corpse;
     private float startTimeBtwTrail = 0.2f;
     private float timeBtwTrail;
     private float startTimeBtwAttacking = 0.4f;
@@ -55,7 +58,7 @@ public class EnemyConfig : MonoBehaviour
 
         //player
         player = GameObject.FindWithTag("Player");
-        playerTf = player.transform;
+        if(player) playerTf = player.transform;
 
         //groundCheck
         groundLayer = LayerMask.GetMask("Ground");
@@ -82,6 +85,7 @@ public class EnemyConfig : MonoBehaviour
         
         GameObject instance = Instantiate(bloodEffect, enemyTf.position, Quaternion.identity);
         Destroy(instance, 8f);
+
         StartCoroutine(DamageFlash());
     }
 
@@ -101,27 +105,29 @@ public class EnemyConfig : MonoBehaviour
     }
 
     void hitEnemy(){
-        if (!isGrounded && timeBtwTrail <= 0){
-            GameObject instance = Instantiate(jumpEffect, groundCheck.position, Quaternion.identity);
-            Destroy(instance, 8f);
-            timeBtwTrail = startTimeBtwTrail;
-        }
-        timeBtwTrail -= Time.deltaTime;
-        
-        if(Mathf.Abs(playerTf.position.x - enemyTf.position.x) < 4 && timeBtwAttacking <= 0){
+        if(playerCloserThanX(4) && timeBtwAttacking <= 0 && !isAttacking){
+            animSword.SetBool("isAttacking", true);
             SoundManager.PlaySound("slash");
             swordTrail.emitting = true;
             timeBtwAttacking = startTimeBtwAttacking;
+            isAttacking = true;
         } 
-
-        animSword.SetBool("isAttacking", timeBtwAttacking > 0);
-        if(timeBtwAttacking < 0) swordTrail.emitting = false;
+        
         timeBtwAttacking -= Time.deltaTime;
+
+        if(timeBtwAttacking < 0){
+            animSword.SetBool("isAttacking", false);
+            isAttacking = false;
+        }
+    }
+
+    public bool isEnemyAttacking(){
+        return isAttacking;
     }
 
     void moveEnemy(float side)
     {
-        if(Mathf.Abs(playerTf.position.x - enemyTf.position.x) <= 4) side= 0;
+        if(playerCloserThanX(4)) side = 0;
 
         fakeFriction();
             
@@ -160,18 +166,35 @@ public class EnemyConfig : MonoBehaviour
     }
 
     void die(){
+        player.GetComponent<PlayerConfig>().updateKills();
         health = 0;
         fallingTime = 0;
         SoundManager.PlaySound("explosion");
-        GameObject instance = Instantiate(explosionEffect, enemyTf.position, Quaternion.identity);
-        Destroy(instance, 8f);
-        CameraConfig.shake();
+        
+        GameObject explosionEffectInstance = Instantiate(explosionEffect, new Vector2(enemyTf.position.x, enemyTf.position.y+4), Quaternion.identity);
+        Destroy(explosionEffectInstance, 3f);
+        
+        GameObject bloodSplashInstance = Instantiate(bloodSplash, enemyTf.position, Quaternion.identity);
+        bloodSplashInstance.transform.localScale = new Vector3(Random.Range(4,7), Random.Range(4,7), 1);
+        Destroy(bloodSplashInstance, 32f);
+        
+        GameObject corpseInstance = Instantiate(corpse, enemyTf.position, Quaternion.identity);
+        Destroy(corpseInstance, 3f);
+       
+        cameraShake();
         Destroy(enemy);
 	}
 
     void jumpEnemy()
     {
-        if (!isGrounded || playerTf.position.y - enemyTf.position.y < 5) return;
+        if (!isGrounded && timeBtwTrail <= 0){
+            GameObject instance = Instantiate(jumpEffect, groundCheck.position, Quaternion.identity);
+            Destroy(instance, 8f);
+            timeBtwTrail = startTimeBtwTrail;
+        }
+        timeBtwTrail -= Time.deltaTime;
+
+        if (!isGrounded || playerCloserThanY(5)) return;
 
         SoundManager.PlaySound("jump");
         anim.SetTrigger("takeOf");
@@ -191,7 +214,7 @@ public class EnemyConfig : MonoBehaviour
             SoundManager.PlaySound("land");
             GameObject instance = Instantiate(dustEffect, groundCheck.position, Quaternion.identity);
             Destroy(instance, 8f);
-            CameraConfig.shake();
+            cameraShake();
         }
     }
 
@@ -201,5 +224,17 @@ public class EnemyConfig : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawSphere(groundCheck.position, checkGroundRadius);
+    }
+
+    bool playerCloserThanX(float distance){
+        return Mathf.Abs(playerTf.position.x - enemyTf.position.x) < distance;
+    }
+
+    bool playerCloserThanY(float distance){
+        return Mathf.Abs(playerTf.position.y - enemyTf.position.y) < distance;
+    }
+
+    void cameraShake(){
+        if(playerCloserThanX(12) && playerCloserThanY(12)) CameraConfig.shake();
     }
 }

@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class SwordConfig : MonoBehaviour
 {
+    public int swordDamage = 28;
+
     void OnTriggerEnter2D(Collider2D col)
     {
         if(col.gameObject.tag == "Player"){
-            col.gameObject.GetComponent<PlayerConfig>().damage(Random.Range(5,1));
+            if(col.gameObject.GetComponent<PlayerConfig>() != null && gameObject.GetComponentInParent<EnemyConfig>() != null && gameObject.GetComponentInParent<EnemyConfig>().isEnemyAttacking()){
+                col.gameObject.GetComponent<PlayerConfig>().damage(swordDamage/10);
+            }
         }
         if(col.gameObject.tag == "Enemy"){
-            col.gameObject.GetComponent<EnemyConfig>().damage(Random.Range(10,30));
+            if(col.gameObject.GetComponent<EnemyConfig>() != null && gameObject.GetComponentInParent<PlayerConfig>() != null && gameObject.GetComponentInParent<PlayerConfig>().isPlayerAttacking()){
+                col.gameObject.GetComponent<EnemyConfig>().damage(swordDamage);
+            }
         }
     }
 }

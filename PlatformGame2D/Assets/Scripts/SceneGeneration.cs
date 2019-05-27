@@ -5,7 +5,6 @@ using UnityEngine;
 public class SceneGeneration : MonoBehaviour
 {
     public GameObject sceneLevel;
-    public GameObject enemyLevel;
 
     void Start()
     {
@@ -21,7 +20,5 @@ public class SceneGeneration : MonoBehaviour
             Instantiate(sceneLevel, new Vector3(inicio.x + (i*distanceBtwScene), inicio.y, inicio.z), Quaternion.identity);
             Instantiate(sceneLevel, new Vector3(inicioBack.x * (-i*distanceBtwScene), inicioBack.y, inicioBack.z), Quaternion.identity);
         }
-
-        Instantiate(enemyLevel, new Vector3(inicio.x + Random.Range(-distanceBtwScene*i,distanceBtwScene*i), inicio.y+30, inicio.z), Quaternion.identity);
     }
 }

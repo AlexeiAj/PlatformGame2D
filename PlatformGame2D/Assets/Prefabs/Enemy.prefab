@@ -122,10 +122,13 @@ MonoBehaviour:
     type: 3}
   jumpEffect: {fileID: 3705323477771048012, guid: 728e028a96f060a419509779720efc3d,
     type: 3}
-  explosionEffect: {fileID: 8962603477960308448, guid: 56e6af6b0cbeb09408c3f593a7e86086,
+  explosionEffect: {fileID: 6135365939089045440, guid: e159d1c27584c494f9f471da14181298,
     type: 3}
   bloodEffect: {fileID: 8012617587645867267, guid: fde22fb0a2089814d9bfc52ade2bac2b,
     type: 3}
+  bloodSplash: {fileID: 3519620174253352155, guid: dfc56cc11a87de9459edf4b1d5fd801c,
+    type: 3}
+  corpse: {fileID: 6818019878776303071, guid: 8c1f92bc922c055428258ae8f9bab033, type: 3}
   swordTrail: {fileID: 5533131402124229407}
 --- !u!1 &5533131401629075982
 GameObject:
@@ -346,6 +349,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce52a0acf9991464ca0307a54524c67b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  swordDamage: 28
 --- !u!1 &5533131401806419846
 GameObject:
   m_ObjectHideFlags: 0

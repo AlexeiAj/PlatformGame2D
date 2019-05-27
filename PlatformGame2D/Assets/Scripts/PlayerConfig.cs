@@ -13,11 +13,16 @@ public class PlayerConfig : MonoBehaviour
 
     //playerConfig
     private float maxVelocity = 20.0f;
-    private float moveForce = 50.0f;
-    private float jumpForce = 2.1f;
+    private float moveForce = 100.0f;
     private bool playerFacingRight = true;
     private float health = 100;
     private float fallingTime = 0f;
+    private bool isJumping;
+    private float startTimeBtwJump = 0.45f;
+    private float timeBtwJump;
+    private float jumpForce = 2f;
+    private bool isAttacking = false;
+    private int kills = 0;
 
     //groundCheck
     private Transform groundCheck;
@@ -34,7 +39,7 @@ public class PlayerConfig : MonoBehaviour
     public GameObject bloodEffect;
     private float startTimeBtwTrail = 0.2f;
     private float timeBtwTrail;
-    private float startTimeBtwAttacking = 0.2f;
+    private float startTimeBtwAttacking = 0.4f;
     private float timeBtwAttacking;
     private float startTimeBtwRunSound = 0.3f;
     private float timeBtwRunSound;
@@ -49,6 +54,7 @@ public class PlayerConfig : MonoBehaviour
         timeBtwTrail = startTimeBtwTrail;
         timeBtwAttacking = -startTimeBtwAttacking;
         timeBtwRunSound = startTimeBtwRunSound;
+        timeBtwJump = startTimeBtwJump;
 
         //groundCheck
         groundCheck = GameObject.FindWithTag("GroundCheck").transform;
@@ -63,12 +69,13 @@ public class PlayerConfig : MonoBehaviour
         movePlayer(Input.GetAxisRaw("Horizontal"));
         jumpPlayer();
         hitPlayer();
-        updateHealth();
+        updateDisplay();
         fallingTimeUpdate();
     }
 
-    void updateHealth(){
+    void updateDisplay(){
         HealthDisplay.Health = health;
+        KillDisplay.Kill = kills;
     }
 
     public void damage(int damage){
@@ -99,21 +106,25 @@ public class PlayerConfig : MonoBehaviour
     }
 
     void hitPlayer(){
-        if (!isGrounded && timeBtwTrail <= 0){
-            GameObject instance = Instantiate(jumpEffect, groundCheck.position, Quaternion.identity);
-            Destroy(instance, 8f);
-            timeBtwTrail = startTimeBtwTrail;
-        }
-        timeBtwTrail -= Time.deltaTime;
-        
-        if((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.LeftShift)) && timeBtwAttacking <= 0){
-            SoundManager.PlaySound("slash");
+        if((Input.GetMouseButton(0) || Input.GetKeyDown(KeyCode.LeftShift)) && timeBtwAttacking <= 0 && !isAttacking){
             swordTrail.emitting = true;
+            animSword.SetBool("isAttacking", true);
+            SoundManager.PlaySound("slash");
             timeBtwAttacking = startTimeBtwAttacking;
+            isAttacking = true;
         } 
-        animSword.SetBool("isAttacking", timeBtwAttacking > 0);
-        if(timeBtwAttacking < 0) swordTrail.emitting = false;
+        
         timeBtwAttacking -= Time.deltaTime;
+
+        if(timeBtwAttacking < 0){
+            animSword.SetBool("isAttacking", false);
+            swordTrail.emitting = false;
+            isAttacking = false;
+        }
+    }
+
+    public bool isPlayerAttacking(){
+        return isAttacking;
     }
 
     void movePlayer(float side)
@@ -155,7 +166,7 @@ public class PlayerConfig : MonoBehaviour
 
     void die(){
         health = 0;
-        updateHealth();
+        updateDisplay();
         fallingTime = 0;
         SoundManager.PlaySound("explosion");
         GameObject instance = Instantiate(explosionEffect, playerTf.position, Quaternion.identity);
@@ -166,12 +177,31 @@ public class PlayerConfig : MonoBehaviour
 
     void jumpPlayer()
     {
-        if (!isGrounded || (!Input.GetKeyDown(KeyCode.Space) && !Input.GetKeyDown(KeyCode.UpArrow))) return;
+        if (!isGrounded && timeBtwTrail <= 0){
+            GameObject instance = Instantiate(jumpEffect, groundCheck.position, Quaternion.identity);
+            Destroy(instance, 8f);
+            timeBtwTrail = startTimeBtwTrail;
+        }
+        timeBtwTrail -= Time.deltaTime;
 
-        SoundManager.PlaySound("jump");
-        anim.SetTrigger("takeOf");
-        playerRb.velocity = new Vector2(playerRb.velocity.x, 0);
-        playerRb.AddForce(transform.up * (-Physics.gravity.y * jumpForce * playerRb.mass), ForceMode2D.Impulse);
+        if(isGrounded && Input.GetKeyDown(KeyCode.Space)){
+            SoundManager.PlaySound("jump");
+            anim.SetTrigger("takeOf");
+            isJumping = true;
+            playerRb.velocity = Vector2.up * jumpForce;
+            timeBtwJump = startTimeBtwJump;
+        }
+
+        if(Input.GetKey(KeyCode.Space) && isJumping){
+            if(timeBtwJump > 0){
+                playerRb.velocity = new Vector2(playerRb.velocity.x, -Physics.gravity.y * jumpForce * playerRb.mass);
+                timeBtwJump -= Time.deltaTime;
+            }else{
+                 isJumping = false;
+            }
+        }
+
+        if(Input.GetKeyUp(KeyCode.Space)) isJumping = false;
     }
 
     void verifyGrounded()
@@ -188,6 +218,10 @@ public class PlayerConfig : MonoBehaviour
             Destroy(instance, 8f);
             CameraConfig.shake();
         }
+    }
+
+    public void updateKills(){
+        kills++;
     }
 
     void OnDrawGizmosSelected()
