@@ -16,8 +16,9 @@ public class SoundManager : MonoBehaviour
         explosion = Resources.Load<AudioClip>("explosion");
 
         audioSrc = GetComponent<AudioSource>();
+        audioSrc.volume = 0.65f;
     }
-
+    
     public static void PlaySound(string clip)
     {
         switch(clip){

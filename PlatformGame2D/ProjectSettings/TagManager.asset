@@ -6,6 +6,8 @@ TagManager:
   tags:
   - GroundCheck
   - Enemy
+  - Sword
+  - Glow
   layers:
   - Default
   - TransparentFX

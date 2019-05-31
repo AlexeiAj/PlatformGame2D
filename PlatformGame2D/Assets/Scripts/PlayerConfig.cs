@@ -9,7 +9,12 @@ public class PlayerConfig : MonoBehaviour
     private Transform playerTf;
     private Rigidbody2D playerRb;
     private Animator anim;
-    public Animator animSword;
+    private Animator animSword;
+    public GameObject hand;
+    private bool hasWeapon = false;
+    private GameObject weapon;
+    private float checkWeaponRadius = 8f;
+    private LayerMask weaponLayer;
 
     //playerConfig
     private float maxVelocity = 20.0f;
@@ -32,7 +37,7 @@ public class PlayerConfig : MonoBehaviour
     private float fakeFrictionValue = 0.95f;
 
     //gameConfig
-    private bool render = false;
+    private bool render = true;
     public GameObject dustEffect;
     public GameObject jumpEffect;
     public GameObject explosionEffect;
@@ -43,7 +48,7 @@ public class PlayerConfig : MonoBehaviour
     private float timeBtwAttacking;
     private float startTimeBtwRunSound = 0.3f;
     private float timeBtwRunSound;
-    public TrailRenderer swordTrail;
+    private TrailRenderer swordTrail;
 
     void Start(){
         //player
@@ -59,6 +64,7 @@ public class PlayerConfig : MonoBehaviour
         //groundCheck
         groundCheck = GameObject.FindWithTag("GroundCheck").transform;
         groundLayer = LayerMask.GetMask("Ground");
+        weaponLayer = LayerMask.GetMask("Sword");
     }
 
     void FixedUpdate()
@@ -71,6 +77,8 @@ public class PlayerConfig : MonoBehaviour
         hitPlayer();
         updateDisplay();
         fallingTimeUpdate();
+        pickupWeapon();
+        throwWeapon();
     }
 
     void updateDisplay(){
@@ -106,6 +114,8 @@ public class PlayerConfig : MonoBehaviour
     }
 
     void hitPlayer(){
+        if(!hasWeapon) return;
+
         if((Input.GetMouseButton(0) || Input.GetKeyDown(KeyCode.LeftShift)) && timeBtwAttacking <= 0 && !isAttacking){
             swordTrail.emitting = true;
             animSword.SetBool("isAttacking", true);
@@ -224,13 +234,58 @@ public class PlayerConfig : MonoBehaviour
         kills++;
     }
 
-    void OnDrawGizmosSelected()
+    void pickupWeapon() {
+        if(hasWeapon) return;
+
+        Collider2D col = Physics2D.OverlapCircle(hand.transform.position, checkWeaponRadius, weaponLayer);
+        if(col == null || col.gameObject.tag != "Sword") return;
+
+        if(Input.GetKeyDown(KeyCode.E)){
+            hasWeapon = true;
+
+            weapon = col.gameObject;
+            swordTrail = weapon.GetComponentInChildren<TrailRenderer>();
+            weapon.gameObject.GetComponent<SwordConfig>().setEquiped(hasWeapon);
+            weapon.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+            weapon.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+            animSword = weapon.GetComponent<Animator>();
+            animSword.enabled = true;
+
+            weapon.transform.parent = hand.gameObject.transform;
+            weapon.transform.localPosition = Vector3.zero;
+            weapon.transform.localRotation = Quaternion.identity;
+        }
+    }
+
+    void throwWeapon(){
+        if(!hasWeapon) return;
+
+        if(Input.GetKeyDown(KeyCode.F)){
+            hasWeapon = false;
+
+            weapon.gameObject.GetComponent<SwordConfig>().setEquiped(hasWeapon);
+            weapon.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+            weapon.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+            weapon.transform.parent = null;
+            weapon.transform.position = hand.transform.position;
+            weapon.transform.rotation = Quaternion.identity;
+            animSword.enabled = false;
+
+            weapon = null;
+            swordTrail = null;
+            animSword = null;
+        }
+    }
+
+    public bool playerHasWeapon(){
+        return hasWeapon;
+    }
+
+    void OnDrawGizmos()
     {
         if(!render) return;
 
         Gizmos.color = Color.red;
-        Gizmos.DrawSphere(groundCheck.position, checkGroundRadius);
+        // Gizmos.DrawSphere(groundCheck.position, checkGroundRadius);
     }
-
-    
 }
