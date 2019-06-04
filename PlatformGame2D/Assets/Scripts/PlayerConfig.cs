@@ -93,6 +93,10 @@ public class PlayerConfig : MonoBehaviour
             return;
         }
         
+        //knockback
+        playerRb.velocity = Vector2.zero;
+		playerRb.AddForce(new Vector2(0, 300));
+
         GameObject instance = Instantiate(bloodEffect, playerTf.position, Quaternion.identity);
         Destroy(instance, 8f);
         StartCoroutine(DamageFlash());
@@ -170,8 +174,12 @@ public class PlayerConfig : MonoBehaviour
     void fallingTimeUpdate(){
         if(fallingTime > 2) die();
 
-        if (!isGrounded) fallingTime += Time.deltaTime;
+        if (!isGrounded && falling()) fallingTime += Time.deltaTime;
         else fallingTime = 0;
+    }
+    
+    bool falling(){
+        return ! Physics2D.OverlapCircle(groundCheck.position, checkGroundRadius, LayerMask.GetMask("Enemy"));
     }
 
     void die(){
@@ -247,7 +255,7 @@ public class PlayerConfig : MonoBehaviour
             swordTrail = weapon.GetComponentInChildren<TrailRenderer>();
             weapon.gameObject.GetComponent<SwordConfig>().setEquiped(hasWeapon);
             weapon.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
-            weapon.gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+            weapon.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
             animSword = weapon.GetComponent<Animator>();
             animSword.enabled = true;
 
@@ -265,7 +273,7 @@ public class PlayerConfig : MonoBehaviour
 
             weapon.gameObject.GetComponent<SwordConfig>().setEquiped(hasWeapon);
             weapon.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
-            weapon.gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+            weapon.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
             weapon.transform.parent = null;
             weapon.transform.position = hand.transform.position;
             weapon.transform.rotation = Quaternion.identity;

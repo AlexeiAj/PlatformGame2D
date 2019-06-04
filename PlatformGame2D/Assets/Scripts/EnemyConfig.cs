@@ -83,6 +83,10 @@ public class EnemyConfig : MonoBehaviour
             return;
         }
         
+        //knockback
+        enemyRb.velocity = Vector2.zero;
+		enemyRb.AddForce(new Vector2(0, 300));
+        
         GameObject instance = Instantiate(bloodEffect, enemyTf.position, Quaternion.identity);
         Destroy(instance, 8f);
 
@@ -169,7 +173,7 @@ public class EnemyConfig : MonoBehaviour
         player.GetComponent<PlayerConfig>().updateKills();
         health = 0;
         fallingTime = 0;
-        SoundManager.PlaySound("explosion");
+        SoundManager.PlaySound("die");
         
         GameObject explosionEffectInstance = Instantiate(explosionEffect, new Vector2(enemyTf.position.x, enemyTf.position.y+4), Quaternion.identity);
         Destroy(explosionEffectInstance, 3f);

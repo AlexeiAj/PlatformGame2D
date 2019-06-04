@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static AudioClip run, jump, land, slash, explosion;
+    public static AudioClip run, jump, land, slash, explosion, die;
     static AudioSource audioSrc;
     
     void Start()
@@ -14,6 +14,7 @@ public class SoundManager : MonoBehaviour
         land = Resources.Load<AudioClip>("land");
         slash = Resources.Load<AudioClip>("slash");
         explosion = Resources.Load<AudioClip>("explosion");
+        die = Resources.Load<AudioClip>("die");
 
         audioSrc = GetComponent<AudioSource>();
         audioSrc.volume = 0.65f;
@@ -36,6 +37,9 @@ public class SoundManager : MonoBehaviour
                 break;
             case "explosion":
                 audioSrc.PlayOneShot(explosion);
+                break;
+            case "die":
+                audioSrc.PlayOneShot(die);
                 break;
         }        
     }
