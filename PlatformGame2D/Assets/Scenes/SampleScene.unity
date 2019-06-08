@@ -325,9 +325,10 @@ GameObject:
   m_Component:
   - component: {fileID: 336508963}
   - component: {fileID: 336508961}
-  - component: {fileID: 336508964}
   - component: {fileID: 336508965}
   - component: {fileID: 336508962}
+  - component: {fileID: 336508966}
+  - component: {fileID: 336508964}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -399,18 +400,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 336508960}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 561147c3e84c9ed4e8d9f67d90e52659, type: 3}
+  m_Script: {fileID: 11500000, guid: 017a7e8626b189144baaae075cd56d57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hand: {fileID: 496256717}
-  dustEffect: {fileID: 4368499437979195091, guid: 0fce1cab435d010428f98159cac9b07f,
-    type: 3}
-  jumpEffect: {fileID: 3705323477771048012, guid: 728e028a96f060a419509779720efc3d,
-    type: 3}
-  explosionEffect: {fileID: 8962603477960308448, guid: 56e6af6b0cbeb09408c3f593a7e86086,
-    type: 3}
-  bloodEffect: {fileID: 4078050130573230932, guid: ec36973fae34f6e43a8fbd95cc6ae1eb,
-    type: 3}
 --- !u!95 &336508965
 Animator:
   serializedVersion: 3
@@ -430,6 +422,26 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &336508966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 336508960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3fdd3e2e8ec0834480a20a1c25cad07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dustEffect: {fileID: 4368499437979195091, guid: 0fce1cab435d010428f98159cac9b07f,
+    type: 3}
+  jumpEffect: {fileID: 3705323477771048012, guid: 728e028a96f060a419509779720efc3d,
+    type: 3}
+  explosionEffect: {fileID: 8962603477960308448, guid: 56e6af6b0cbeb09408c3f593a7e86086,
+    type: 3}
+  bloodEffect: {fileID: 4078050130573230932, guid: ec36973fae34f6e43a8fbd95cc6ae1eb,
+    type: 3}
 --- !u!1 &485839068
 GameObject:
   m_ObjectHideFlags: 0
@@ -706,7 +718,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.11320752, g: 0, b: 0, a: 1}
+  m_BackGroundColor: {r: 0.103773594, g: 0.103773594, b: 0.103773594, a: 1}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
