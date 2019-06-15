@@ -11,6 +11,7 @@ public class Enemy : Actor
 
     protected new void Start() {
         base.startWithWeapon = true;
+        base.knockbackForce = 800f;
         base.Start();
         player = GameObject.FindWithTag("Player");
         if(player) playerTf = player.transform;
@@ -26,7 +27,12 @@ public class Enemy : Actor
         else move.moveActor(playerTf.position.x - gameObject.transform.position.x > 0 ? 1 : -1);
         weapon.hit(playerCloserThanX(4));
         jumpVerify();
+        wallJumpVerify();
         fallingTimeUpdate();
+    }
+
+    private void wallJumpVerify(){
+        if(playerCloserThanY(5)) jump.wallJump();
     }
     
     private void jumpVerify(){
@@ -36,7 +42,7 @@ public class Enemy : Actor
     }
     
     protected void fallingTimeUpdate(){
-        if(fallingTime > fallingTimeToDie) die();
+        if(fallingTime > fallingTimeToDie && gameObject.GetComponent<Rigidbody2D>().velocity.y < -100) die();
 
         if (groundCheck.isFallingAboveEnemy()) fallingTime += Time.deltaTime;
         else fallingTime = 0;
@@ -58,8 +64,8 @@ public class Enemy : Actor
         StartCoroutine(DamageFlash());
     }
     
-    public virtual void die(){
-        SoundManager.PlaySound("explosion");
+    public void die(){
+        SoundManager.PlaySound("die");
         effects.play("explosionEffect", actorTf.position, Quaternion.identity, 3f);
 
         GameObject.FindGameObjectWithTag("Player").gameObject.GetComponent<Player>().updateKills();

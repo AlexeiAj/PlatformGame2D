@@ -8,6 +8,8 @@ public class GroundCheck
     private bool groundedPreviousState = false;
     private float radius = 1f;
     private float destroyTime = 8f;
+    private float timeBtwLand;
+    private float startTimeBtwLand = 0.2f;
 
     private Transform groundCheck;
     private LayerMask groundLayer;
@@ -17,6 +19,8 @@ public class GroundCheck
         this.groundCheck = groundCheck;
         this.groundLayer = groundLayer;
         this.effects = effects;
+
+        timeBtwLand = startTimeBtwLand;
     }
 
     public void updateGrounded(){
@@ -30,11 +34,13 @@ public class GroundCheck
     }
 
     private void land(){
-        if(!groundedPreviousState && grounded){
+        if(!groundedPreviousState && grounded && timeBtwLand <= 0){
             SoundManager.PlaySound("land");
             effects.play("dustEffect", groundCheck.transform.position, Quaternion.identity, destroyTime);
             CameraConfig.shake();
+            timeBtwLand = startTimeBtwLand;
         }
+        timeBtwLand -= Time.deltaTime;
     }
 
     public bool isGroundedPreviousState(){

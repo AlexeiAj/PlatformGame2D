@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Sword : MonoBehaviour
 {
-    private int swordDamage = 28;
+    public int swordDamage = 28;
     private float checkPlayerRadius = 8f;
     private SpriteRenderer glow;
     private bool equipped = false;

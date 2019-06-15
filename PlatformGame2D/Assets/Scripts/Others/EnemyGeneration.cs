@@ -7,7 +7,7 @@ public class EnemyGeneration : MonoBehaviour
     Vector3 inicio;
     public GameObject enemyLevel;
     private float distanceBtwScene = 38.4f;
-    private int platformSize = 2;
+    private int platformSize = 4;
 
     void Start()
     {

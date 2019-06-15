@@ -14,6 +14,8 @@ public class Weapon
     private float checkWeaponRadius = 8f;
     private bool hasWeapon = false;
     public GameObject hand;
+    private float timeBtwPick;
+    private float startTimeBtwPick = 0.5f;
 
     public Weapon(GameObject actor, LayerMask weaponLayer, GameObject hand, bool startWithWeapon){
         this.weaponLayer = weaponLayer;
@@ -21,6 +23,7 @@ public class Weapon
         
         if(startWithWeapon) startWeapon(actor);
         timeBtwAttacking = -startTimeBtwAttacking;
+        timeBtwPick = startTimeBtwPick;
     }
 
     public void startWeapon(GameObject actor){
@@ -41,8 +44,15 @@ public class Weapon
 
     public void weaponUpdate(){
         hit(Input.GetMouseButton(0));
-        pickupWeapon();
-        throwWeapon();
+
+        if(Input.GetKey(KeyCode.E) && timeBtwPick <= 0){
+            if(!hasWeapon) pickupWeapon();
+            else throwWeapon();
+
+            timeBtwPick = startTimeBtwPick;
+        }
+
+        timeBtwPick -= Time.deltaTime;
     }
 
     public void hit(bool pressing){
@@ -66,8 +76,6 @@ public class Weapon
     }
 
     void pickupWeapon(){
-        if(hasWeapon) return;
-
         Collider2D[] colliders = Physics2D.OverlapCircleAll(hand.transform.position, checkWeaponRadius, weaponLayer);
         Collider2D col = null;
         
@@ -79,43 +87,40 @@ public class Weapon
 
         if(col == null) return;
 
-        if(Input.GetKey(KeyCode.E)){
-            hasWeapon = true;
+        hasWeapon = true;
 
-            weapon = col.gameObject;
-            weapon.gameObject.GetComponent<Sword>().setEquipped(hasWeapon);
-            swordTrail = weapon.GetComponentInChildren<TrailRenderer>();
-            swordTrail.emitting = false;
-            
-            weapon.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
-            weapon.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
-            animSword = weapon.GetComponent<Animator>();
-            animSword.enabled = true;
+        weapon = col.gameObject;
+        weapon.gameObject.GetComponent<Sword>().setEquipped(hasWeapon);
+        swordTrail = weapon.GetComponentInChildren<TrailRenderer>();
+        swordTrail.emitting = false;
+        
+        weapon.gameObject.GetComponent<Rigidbody2D>().isKinematic = true;
+        weapon.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = true;
+        animSword = weapon.GetComponent<Animator>();
+        animSword.enabled = true;
 
-            weapon.transform.parent = hand.gameObject.transform;
-            weapon.transform.localPosition = Vector3.zero;
-            weapon.transform.localRotation = Quaternion.identity;
-        }
+        weapon.transform.parent = hand.gameObject.transform;
+        weapon.transform.localPosition = Vector3.zero;
+        weapon.transform.localRotation = Quaternion.identity;
+        weapon.transform.localScale = new Vector2(1,1);
     }
 
     void throwWeapon(){
-        if(!hasWeapon) return;
+        hasWeapon = false;
 
-        if(Input.GetKey(KeyCode.F)){
-            hasWeapon = false;
+        weapon.gameObject.GetComponent<Sword>().setEquipped(hasWeapon);
+        weapon.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
+        weapon.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
+        weapon.transform.parent = null;
+        weapon.transform.position = hand.transform.position;
+        weapon.transform.rotation = Quaternion.identity;
+        animSword.enabled = false;
+        swordTrail.emitting = false;
+        attacking = false;
 
-            weapon.gameObject.GetComponent<Sword>().setEquipped(hasWeapon);
-            weapon.gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
-            weapon.gameObject.GetComponent<CapsuleCollider2D>().isTrigger = false;
-            weapon.transform.parent = null;
-            weapon.transform.position = hand.transform.position;
-            weapon.transform.rotation = Quaternion.identity;
-            animSword.enabled = false;
-
-            weapon = null;
-            swordTrail = null;
-            animSword = null;
-        }
+        weapon = null;
+        swordTrail = null;
+        animSword = null;
     }
 
     public bool isAttacking(){

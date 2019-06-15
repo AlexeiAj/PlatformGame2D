@@ -9,6 +9,8 @@ public class Jump
     private bool isJumping;
     private float startTimeBtwJumpTrail = 0.2f;
     private float startTimeBtwJump = 0.45f;
+    private float startTimeBtwWallJump = 0.45f;
+    private float timeBtwWallJump;
     private float timeBtwJump;
     private float destroyTime = 8f;
 
@@ -18,16 +20,21 @@ public class Jump
     private GroundCheck groundCheck;
     private ActorAnimations animations;
     private ActorEffects effects;
+    private GameObject hand;
+    private Weapon weapon;
 
-    public Jump(GameObject actor, Rigidbody2D actorRb, GroundCheck groundCheck, ActorAnimations animations, ActorEffects effects){
+    public Jump(GameObject actor, Rigidbody2D actorRb, GroundCheck groundCheck, ActorAnimations animations, ActorEffects effects, GameObject hand, Weapon weapon){
         this.actor = actor;
         this.actorTf = actor.transform;
         this.actorRb = actorRb;
         this.groundCheck = groundCheck;
         this.animations = animations;
         this.effects = effects;
+        this.hand = hand;
+        this.weapon = weapon;
 
         timeBtwJump = startTimeBtwJump;
+        timeBtwWallJump = startTimeBtwWallJump;
         timeBtwJumpTrail = startTimeBtwJumpTrail;
     }
 
@@ -47,13 +54,23 @@ public class Jump
         isJumping = false;
     }
 
+    public void wallJump(){
+        bool isNextWall = Physics2D.OverlapCircle(hand.transform.position, 1f, LayerMask.GetMask("Wall"));
+        if(timeBtwWallJump < 0 && !groundCheck.isGrounded() && weapon.isAttacking() && isNextWall){
+            releaseJump();
+            float force = -Physics.gravity.y * jumpForce * 2 * actorRb.mass;
+            actorRb.velocity = new Vector2(force * -actor.transform.localScale.x, force);
+            timeBtwWallJump = startTimeBtwWallJump;
+        }
+        timeBtwWallJump -= Time.deltaTime;
+    }
+
     public void doJump(){
         if(!groundCheck.isGrounded() || isJumping) return;
 
+        isJumping = true;
         SoundManager.PlaySound("jump");
         animations.play("takeOf", false);
-        isJumping = true;
-        actorRb.velocity = Vector2.up * jumpForce;
         timeBtwJump = startTimeBtwJump; 
     }
 

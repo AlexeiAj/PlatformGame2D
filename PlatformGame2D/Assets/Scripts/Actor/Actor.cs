@@ -31,12 +31,13 @@ public class Actor : MonoBehaviour
         actorTf = actor.transform;
         actorRb = actor.GetComponent<Rigidbody2D>();
         effects = GetComponent<ActorEffects>();
+        hand = getChildGameObject(gameObject, "Hand");
 
         groundCheck = new GroundCheck((getChildGameObject(gameObject, "GroundCheck")).transform, LayerMask.GetMask("Ground"), effects);
         animations = new ActorAnimations(GetComponent<Animator>());
         move = new Move(actor, actorRb, groundCheck, animations);
-        jump = new Jump(actor, actorRb, groundCheck, animations, effects);
-        weapon = new Weapon(actor, LayerMask.GetMask("Sword"), getChildGameObject(gameObject, "Hand"), startWithWeapon);
+        weapon = new Weapon(actor, LayerMask.GetMask("Sword"), hand, startWithWeapon);
+        jump = new Jump(actor, actorRb, groundCheck, animations, effects, hand, weapon);
     }
     
     protected IEnumerator DamageFlash() {
