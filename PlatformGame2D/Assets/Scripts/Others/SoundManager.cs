@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SoundManager : MonoBehaviour
 {
     public static AudioClip run, jump, land, slash, explosion, die;
+    public Toggle toggleMute;
     static AudioSource audioSrc;
-    
+
     void Start()
     {
         run = Resources.Load<AudioClip>("run");
@@ -15,9 +17,11 @@ public class SoundManager : MonoBehaviour
         slash = Resources.Load<AudioClip>("slash");
         explosion = Resources.Load<AudioClip>("explosion");
         die = Resources.Load<AudioClip>("die");
-
-        audioSrc = GetComponent<AudioSource>();
+        
+        if(!audioSrc) audioSrc = GetComponent<AudioSource>();
+        DontDestroyOnLoad(audioSrc);
         audioSrc.volume = 0.65f;
+        toggleMute.isOn = audioSrc.mute;
     }
     
     public static void PlaySound(string clip)
@@ -42,5 +46,9 @@ public class SoundManager : MonoBehaviour
                 audioSrc.PlayOneShot(die);
                 break;
         }        
+    }
+
+    public void mute(bool mute){
+        audioSrc.mute = mute;
     }
 }

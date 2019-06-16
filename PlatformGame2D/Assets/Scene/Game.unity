@@ -816,6 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6540ff44e0480c04e8e28bc5eedfd739, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  toggleMute: {fileID: 2126595652}
 --- !u!82 &485839070
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1845,7 +1846,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.14901961, b: 0.14901961, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2201,7 +2202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 0.18823531, b: 0.18823531, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3795,7 +3796,7 @@ GameObject:
   - component: {fileID: 2126595651}
   - component: {fileID: 2126595652}
   m_Layer: 5
-  m_Name: Toggle
+  m_Name: ToggleMute
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3834,7 +3835,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -3861,14 +3862,14 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 792130823}
-  toggleTransition: 0
+  toggleTransition: 1
   graphic: {fileID: 958582290}
   m_Group: {fileID: 0}
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 485839070}
-        m_MethodName: set_mute
+      - m_Target: {fileID: 485839069}
+        m_MethodName: mute
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
