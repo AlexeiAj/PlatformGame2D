@@ -12,6 +12,7 @@ public class Actor : MonoBehaviour
     protected Color actorColor = Color.blue;
     protected GameObject hand;
     protected bool startWithWeapon = false;
+    protected bool shakeCamera = true;
 
     protected float health = 100;
     protected int kills = 0;
@@ -33,7 +34,7 @@ public class Actor : MonoBehaviour
         effects = GetComponent<ActorEffects>();
         hand = getChildGameObject(gameObject, "Hand");
 
-        groundCheck = new GroundCheck((getChildGameObject(gameObject, "GroundCheck")).transform, LayerMask.GetMask("Ground"), effects);
+        groundCheck = new GroundCheck((getChildGameObject(gameObject, "GroundCheck")).transform, LayerMask.GetMask("Ground"), effects, shakeCamera);
         animations = new ActorAnimations(GetComponent<Animator>());
         move = new Move(actor, actorRb, groundCheck, animations);
         weapon = new Weapon(actor, LayerMask.GetMask("Sword"), hand, startWithWeapon);

@@ -11,6 +11,7 @@ public class Enemy : Actor
 
     protected new void Start() {
         base.startWithWeapon = true;
+        base.shakeCamera = false;
         base.knockbackForce = 800f;
         base.Start();
         player = GameObject.FindWithTag("Player");
@@ -32,7 +33,7 @@ public class Enemy : Actor
     }
 
     private void wallJumpVerify(){
-        if(playerCloserThanY(5)) jump.wallJump();
+        if(!playerCloserThanY(5)) jump.wallJump();
     }
     
     private void jumpVerify(){

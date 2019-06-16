@@ -10,15 +10,17 @@ public class GroundCheck
     private float destroyTime = 8f;
     private float timeBtwLand;
     private float startTimeBtwLand = 0.2f;
+    private bool shakeCamera;
 
     private Transform groundCheck;
     private LayerMask groundLayer;
     private ActorEffects effects;
 
-    public GroundCheck(Transform groundCheck, LayerMask groundLayer, ActorEffects effects){
+    public GroundCheck(Transform groundCheck, LayerMask groundLayer, ActorEffects effects, bool shakeCamera){
         this.groundCheck = groundCheck;
         this.groundLayer = groundLayer;
         this.effects = effects;
+        this.shakeCamera = shakeCamera;
 
         timeBtwLand = startTimeBtwLand;
     }
@@ -37,7 +39,7 @@ public class GroundCheck
         if(!groundedPreviousState && grounded && timeBtwLand <= 0){
             SoundManager.PlaySound("land");
             effects.play("dustEffect", groundCheck.transform.position, Quaternion.identity, destroyTime);
-            CameraConfig.shake();
+            if(shakeCamera) CameraConfig.shake();
             timeBtwLand = startTimeBtwLand;
         }
         timeBtwLand -= Time.deltaTime;
