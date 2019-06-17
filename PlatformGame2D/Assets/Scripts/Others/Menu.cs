@@ -13,7 +13,7 @@ public class Menu : MonoBehaviour
 	}
 
 	void Update(){
-		if(Input.GetKeyDown(KeyCode.Escape)) paused = !paused;
+		if(Input.GetButtonDown("Cancel")) paused = !paused;
 
 		if(paused) pauseGame();
 		else play();

@@ -43,9 +43,9 @@ public class Weapon
     }
 
     public void weaponUpdate(){
-        hit(Input.GetMouseButton(0));
+        hit(Input.GetButton("Fire1"));
 
-        if(Input.GetKey(KeyCode.E) && timeBtwPick <= 0){
+        if(Input.GetButton("Fire2") && timeBtwPick <= 0){
             if(!hasWeapon) pickupWeapon();
             else throwWeapon();
 

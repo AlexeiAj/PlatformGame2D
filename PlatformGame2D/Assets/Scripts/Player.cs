@@ -23,13 +23,13 @@ public class Player : Actor
     }
 
     private void wallJumpVerify(){
-        if(Input.GetKey(KeyCode.Space)) jump.wallJump();
+        if(Input.GetButton("Jump")) jump.wallJump();
     }
 
     private void jumpVerify(){
-        jump.jumpUpdate(Input.GetKey(KeyCode.Space));
-        if(Input.GetKey(KeyCode.Space)) jump.doJump();
-        if(Input.GetKeyUp(KeyCode.Space)) jump.releaseJump();
+        jump.jumpUpdate(Input.GetButton("Jump"));
+        if(Input.GetButton("Jump")) jump.doJump();
+        if(Input.GetButtonUp("Jump")) jump.releaseJump();
     }
     
     private void fallingTimeUpdate(){
