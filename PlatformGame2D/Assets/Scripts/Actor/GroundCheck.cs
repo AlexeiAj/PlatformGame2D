@@ -11,6 +11,7 @@ public class GroundCheck
     private float timeBtwLand;
     private float startTimeBtwLand = 0.2f;
     private bool shakeCamera;
+    private bool playerClose = true;
 
     private Transform groundCheck;
     private LayerMask groundLayer;
@@ -29,6 +30,11 @@ public class GroundCheck
         grounded = Physics2D.OverlapCircle(groundCheck.position, radius, groundLayer);
     }
 
+    public void updateGrounded(bool playerClose){
+        this.playerClose = playerClose;
+        updateGrounded();
+    }
+
     public bool isGrounded(){
         land();
         groundedPreviousState = grounded;
@@ -37,7 +43,7 @@ public class GroundCheck
 
     private void land(){
         if(!groundedPreviousState && grounded && timeBtwLand <= 0){
-            SoundManager.PlaySound("land");
+            if(playerClose) SoundManager.PlaySound("land");
             effects.play("dustEffect", groundCheck.transform.position, Quaternion.identity, destroyTime);
             if(shakeCamera) CameraConfig.shake();
             timeBtwLand = startTimeBtwLand;

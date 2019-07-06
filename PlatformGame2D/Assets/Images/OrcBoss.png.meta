@@ -1,0 +1,256 @@
+fileFormatVersion: 2
+guid: 71b082f4f4407a34289e3fde8572d648
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6585191615406030368
+    second: OrcBoss_0
+  - first:
+      213: -2428702062429391449
+    second: OrcBoss_1
+  - first:
+      213: -5768072271687317362
+    second: OrcBoss_2
+  - first:
+      213: 3759612832221337783
+    second: OrcBoss_3
+  - first:
+      213: 1936690408786479908
+    second: OrcBoss_4
+  - first:
+      213: -8725871908474927032
+    second: OrcBoss_5
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 2
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - serializedVersion: 2
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: OrcBoss_0
+      rect:
+        serializedVersion: 2
+        x: 40
+        y: 495
+        width: 428
+        height: 337
+      alignment: 9
+      pivot: {x: 0.41691923, y: 0.031044073}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 578da50053a97a04682de4b050d69f05
+      internalID: -6585191615406030368
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrcBoss_1
+      rect:
+        serializedVersion: 2
+        x: 490
+        y: 404
+        width: 379
+        height: 428
+      alignment: 9
+      pivot: {x: 0.51389956, y: 0.11536657}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2c121d2ef4bc5ef4495be45731ce145f
+      internalID: -2428702062429391449
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrcBoss_2
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 254
+        width: 239
+        height: 204
+      alignment: 9
+      pivot: {x: 0.097741224, y: 0.82279027}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 805f91373b176fa4aa6a2e5fca43a183
+      internalID: -5768072271687317362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrcBoss_3
+      rect:
+        serializedVersion: 2
+        x: 524
+        y: 57
+        width: 150
+        height: 286
+      alignment: 9
+      pivot: {x: 0.47366047, y: 0.9190405}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ea7d454e425be454681f4c665c35847a
+      internalID: 3759612832221337783
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrcBoss_4
+      rect:
+        serializedVersion: 2
+        x: 708
+        y: 63
+        width: 151
+        height: 280
+      alignment: 9
+      pivot: {x: 0.5000004, y: 0.918613}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39cfc958c915b0041ad26a2e77417e9a
+      internalID: 1936690408786479908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: OrcBoss_5
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 32
+        width: 239
+        height: 204
+      alignment: 9
+      pivot: {x: 0.070189245, y: 0.8550691}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 86ee63eb4c07fb449a52016a83698d2d
+      internalID: -8725871908474927032
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: d03401ecbd0f30b459750364ce46cb9f
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

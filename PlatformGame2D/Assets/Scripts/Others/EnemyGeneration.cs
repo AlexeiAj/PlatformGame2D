@@ -13,7 +13,7 @@ public class EnemyGeneration : MonoBehaviour
     {
         inicio = transform.position;
         Instantiate(enemyLevel, new Vector3(inicio.x + Random.Range(-distanceBtwScene*platformSize,distanceBtwScene*platformSize), inicio.y+30, inicio.z), Quaternion.identity);
-        InvokeRepeating("invokeEnemyRepeat", 5, 5);
+        InvokeRepeating("invokeEnemyRepeat", 15, 5);
     }
 
     void invokeEnemyRepeat()

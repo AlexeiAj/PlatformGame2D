@@ -7,6 +7,7 @@ public class LoadScene : MonoBehaviour
 {
     public void LoadLevel(string scene){
         SceneManager.LoadScene(scene);
+        GetComponent<Menu>().play();
     }
 
     public void QuitLevel(){

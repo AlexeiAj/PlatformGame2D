@@ -254,6 +254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   swordDamage: 88
+  keyE: {fileID: 1408496513461301376, guid: d550dafcc8768fc4cb4568de4fd181c5, type: 3}
 --- !u!95 &5778502694679280808
 Animator:
   serializedVersion: 3

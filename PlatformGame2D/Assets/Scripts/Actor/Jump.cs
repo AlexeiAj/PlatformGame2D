@@ -22,6 +22,7 @@ public class Jump
     private ActorEffects effects;
     private GameObject hand;
     private Weapon weapon;
+    private bool playerClose = true;
 
     public Jump(GameObject actor, Rigidbody2D actorRb, GroundCheck groundCheck, ActorAnimations animations, ActorEffects effects, GameObject hand, Weapon weapon){
         this.actor = actor;
@@ -50,6 +51,11 @@ public class Jump
         }
     }
 
+    public void jumpUpdate(bool pressing, bool playerClose){
+        this.playerClose = playerClose;
+        jumpUpdate(pressing);
+    }
+
     public void releaseJump(){
         isJumping = false;
     }
@@ -69,7 +75,7 @@ public class Jump
         if(!groundCheck.isGrounded() || isJumping) return;
 
         isJumping = true;
-        SoundManager.PlaySound("jump");
+        if(playerClose) SoundManager.PlaySound("jump");
         animations.play("takeOf", false);
         timeBtwJump = startTimeBtwJump; 
     }

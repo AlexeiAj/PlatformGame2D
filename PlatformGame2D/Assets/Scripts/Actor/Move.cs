@@ -11,6 +11,7 @@ public class Move
     private bool isRunning;
     private float startTimeBtwRunSound = 0.3f;
     private float timeBtwRunSound;
+    private bool playerClose = true;
     
     private GameObject actor;
     private Transform actorTf;
@@ -40,12 +41,17 @@ public class Move
         fakeFriction();
     }
 
+    public void moveActor(float side, bool playerClose){
+        this.playerClose = playerClose;
+        moveActor(side);
+    }
+
     private void walkSound(){
         if(!isRunning) return;
 
         if(timeBtwRunSound <= 0){
             timeBtwRunSound = startTimeBtwRunSound;
-            SoundManager.PlaySound("run");
+            if(playerClose) SoundManager.PlaySound("run");
         }
         timeBtwRunSound -= Time.deltaTime;
     }

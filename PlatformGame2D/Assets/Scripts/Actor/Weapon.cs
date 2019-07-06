@@ -46,9 +46,7 @@ public class Weapon
         hit(Input.GetButton("Fire1"));
 
         if(Input.GetButton("Fire2") && timeBtwPick <= 0){
-            if(!hasWeapon) pickupWeapon();
-            else throwWeapon();
-
+            pickupWeapon();
             timeBtwPick = startTimeBtwPick;
         }
 
@@ -84,9 +82,10 @@ public class Weapon
                 col = colliders[i];
             }
         }
-
+        
+        if(hasWeapon) throwWeapon();
         if(col == null) return;
-
+        
         hasWeapon = true;
 
         weapon = col.gameObject;

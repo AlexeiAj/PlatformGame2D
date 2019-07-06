@@ -13,23 +13,21 @@ public class Menu : MonoBehaviour
 	}
 
 	void Update(){
-		if(Input.GetButtonDown("Cancel")) paused = !paused;
-
-		if(paused) pauseGame();
-		else play();
+		if(Input.GetButtonDown("Cancel")){
+			if(!paused) pauseGame(true);
+			else play();
+		}
 	}
 
-	void pauseGame(){
-		PauseUI.SetActive(true);
+	public void pauseGame(bool exibeMenu){
+		paused = true;
+		PauseUI.SetActive(exibeMenu);
 		Time.timeScale = 0;
 	}
 
-	void play(){
+	public void play(){
+		paused = false;
 		PauseUI.SetActive(false);
 		Time.timeScale = 1;
-	}
-
-	public void Resume(){
-		paused = false;
 	}
 }

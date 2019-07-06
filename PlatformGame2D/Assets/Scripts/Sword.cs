@@ -5,9 +5,11 @@ using UnityEngine;
 public class Sword : MonoBehaviour
 {
     public int swordDamage = 28;
+    public GameObject keyE;
     private float checkPlayerRadius = 8f;
     private SpriteRenderer glow;
     private bool equipped = false;
+    private GameObject KeyEInstance;
 
     void OnTriggerEnter2D(Collider2D col)
     {
@@ -31,6 +33,7 @@ public class Sword : MonoBehaviour
 
     void Update(){
         if(!glow) return;
+        addKeyE();
 
         if(equipped){
             glow.enabled = false;
@@ -42,6 +45,17 @@ public class Sword : MonoBehaviour
         for (int i = 0; i < colliders.Length; i++) if(colliders[i].gameObject.tag == "Player") show = true;
 
         glow.enabled = show;
+    }
+
+    public void addKeyE(){
+        var pos = new Vector3(glow.gameObject.transform.position.x, glow.gameObject.transform.position.y + 1, glow.gameObject.transform.position.z);
+        if(isGlowwing() && !KeyEInstance) KeyEInstance = Instantiate(keyE, pos, Quaternion.identity);
+        if(!isGlowwing() && KeyEInstance) Destroy(KeyEInstance);
+        if(KeyEInstance) KeyEInstance.transform.position = pos;
+    }
+
+    public bool isGlowwing(){
+        return glow.enabled;
     }
 
     public void setEquipped(bool equipped){

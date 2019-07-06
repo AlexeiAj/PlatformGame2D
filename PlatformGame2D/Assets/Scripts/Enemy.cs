@@ -22,10 +22,10 @@ public class Enemy : Actor
     void FixedUpdate(){
         if(!actor || !player) return;
         
-        groundCheck.updateGrounded();
+        groundCheck.updateGrounded(playerInsideScreen());
 
-        if(playerCloserThanX(4)) move.moveActor(0);
-        else move.moveActor(playerTf.position.x - gameObject.transform.position.x > 0 ? 1 : -1);
+        if(playerCloserThanX(4)) move.moveActor(0, playerInsideScreen());
+        else move.moveActor(playerTf.position.x - gameObject.transform.position.x > 0 ? 1 : -1, playerInsideScreen());
         weapon.hit(playerCloserThanX(4));
         jumpVerify();
         wallJumpVerify();
@@ -37,7 +37,7 @@ public class Enemy : Actor
     }
     
     private void jumpVerify(){
-        jump.jumpUpdate(!playerCloserThanY(5));
+        jump.jumpUpdate(!playerCloserThanY(5), playerInsideScreen());
         if(!playerCloserThanY(5)) jump.doJump();
         if(playerCloserThanY(5)) jump.releaseJump();
     }
@@ -66,7 +66,7 @@ public class Enemy : Actor
     }
     
     public void die(){
-        SoundManager.PlaySound("die");
+        if(playerInsideScreen()) SoundManager.PlaySound("die");
         effects.play("explosionEffect", actorTf.position, Quaternion.identity, 3f);
 
         GameObject.FindGameObjectWithTag("Player").gameObject.GetComponent<Player>().updateKills();
@@ -91,6 +91,10 @@ public class Enemy : Actor
     }
 
     void cameraShake(){
-        if(playerCloserThanX(12) && playerCloserThanY(12)) CameraConfig.shake();
+        if(playerInsideScreen()) CameraConfig.shake();
+    }
+
+    bool playerInsideScreen(){
+        return playerCloserThanX(30) && playerCloserThanY(30);
     }
 }
